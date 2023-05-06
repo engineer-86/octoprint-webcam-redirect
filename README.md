@@ -1,25 +1,31 @@
-# octoprint-webcam-redirect
+# Octoprint Webcam Redirect
 
-This is a Python Flask web application that streams video from a webcam to a web page. The web page updates the video in real-time, so it gives the appearance of a live stream.
+A Python Flask application that redirects Octoprint webcams to a local URL for easier integration with other applications.
 
-## Setup
+## Features
 
-1. Clone this repository to your local machine.
-2. Install Docker on your machine if not already installed.
-3. Build the Docker image with the command: `docker build -t octoprint-webcam-redirect .`
-4. Set the environment variables `USERNAME` and `PASSWORD` to your desired basic authentication credentials.
-5. Edit the `urls` list in `main.py` to contain the URLs for your desired webcam streams.
-6. Run the Docker container with the command: `docker run -p 8000:8000 -e USERNAME=$USERNAME -e PASSWORD=$PASSWORD octoprint-webcam-redirect`
+- Multiple webcams can be redirected simultaneously
+- Simple authentication mechanism to restrict access to the webcams
+- Uses multipart streaming to efficiently stream video from the webcams
+- Customizable via environment variables
 
 ## Usage
 
-Navigate to `http://localhost:8000` in a web browser to view the video stream. You will be prompted to enter the basic authentication credentials you set up in step 4. Once authenticated, you should see the live video stream from your webcam.
+1. Clone this repository to your machine.
+2. Set the `INTERNAL_URLS` environment variable to a comma-separated list of internal webcam URLs. For example: `export INTERNAL_URLS="http://192.168.10.95/webcam/?action=stream,http://192.168.10.95:8081/?action=stream"`
+3. Set the `USERNAME` and `PASSWORD` environment variables to the desired username and password for authentication.
+4. Run the application with `python main.py`.
+5. Access the redirected webcams via the URLs `http://localhost:8000/api/cam1` and `http://localhost:8000/api/cam2` (replace `cam1` and `cam2` with the appropriate camera number).
 
-## API
+## Customization
 
-This application exposes an API for each webcam stream in the `urls` list. The API endpoints are as follows:
+The application can be customized via the following environment variables:
 
-- `/api/video-feed`: Returns the video feed for the first webcam stream in the `urls` list.
-- `/api/video-feed-2`: Returns the video feed for the second webcam stream in the `urls` list. (Add more routes as needed for additional streams.)
+- `INTERNAL_URLS`: A comma-separated list of internal webcam URLs.
+- `USERNAME`: The username for basic authentication.
+- `PASSWORD`: The password for basic authentication.
 
-You can access the API endpoints by appending them to the base URL of the application.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.

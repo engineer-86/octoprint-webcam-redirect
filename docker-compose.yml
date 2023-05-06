@@ -1,0 +1,11 @@
+version: "3.9"
+
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - USERNAME=1
+      - PASSWORD=1
+      - INTERNAL_URLS=["http://192.168.10.95/webcam/?action=stream", "http://192.168.10.95:8081/?action=stream"]
